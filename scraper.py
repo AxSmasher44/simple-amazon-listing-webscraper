@@ -16,14 +16,14 @@ def amazon_scraper(item):
     all_items = []
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
-    products = soup.find_all("div", class_="sg-col-20-of-24 s-result-item s-asin sg-col-0-of-12 sg-col-28-of-32 sg-col-16-of-20 sg-col sg-col-32-of-36 sg-col-12-of-16 sg-col-24-of-28")
+    products = soup.find_all("div", class_="sg-col-inner")
     for product in products:
         all_items.append({
             "Name":product.find("span", class_="a-size-medium a-color-base a-text-normal").get_text(),
             "Price":product.find("span", class_="a-offscreen").get_text()
         })
     return all_items
-
+print(amazon_scraper("apple watch"))
 def product_listings_to_csv(product):
     item_dict = amazon_scraper(product)
     with open(product+".csv", "w", newline="", encoding="UTF-8") as file:
